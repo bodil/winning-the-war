@@ -1,0 +1,5 @@
+/node_modules
+/slides/node_modules
+/js
+/.repl
+/target
