@@ -20,6 +20,34 @@
   (hello []
     (str (super) " You need to be about 20% cooler.")))
 
+;;; Promises
+
+=> (def p (p/promise))
+
+=> @p
+:redlobster.promise/not-realised
+
+=> (p/realise p "Hello everypony!")
+=> @p
+"Hello everypony!"
+
+=> (def p (p/promise))
+=> (p/on-realised p #(println "OMG REALISED")
+                    #(println "OMG FAILED"))
+=> (p/realised p "Hello everypony!")
+OMG REALISED
+=> @p
+"Hello everypony!"
+
+=> (def p (p/promise))
+=> (def p* (p/promise))
+=> (p/realise p p*)
+=> @p
+:redlobster.promise/not-realised
+=> (p/realise p* "Hello everypony!")
+=> @p
+"Hello everypony!"
+
 ;;; Dog Fort example
 
 (def coll
@@ -48,34 +76,6 @@
             [docs (mongo/update-id! @coll id #(assoc % "done" (not (% "done"))))]
             (response/redirect-after-post "/")))))
 
-
-;;; Promises
-
-=> (def p (p/promise))
-
-=> @p
-:redlobster.promise/not-realised
-
-=> (p/realise p "Hello everypony!")
-=> @p
-"Hello everypony!"
-
-=> (def p (p/promise))
-=> (p/on-realised p #(println "OMG REALISED")
-                    #(println "OMG FAILED"))
-=> (p/realised p "Hello everypony!")
-OMG REALISED
-=> @p
-"Hello everypony!"
-
-=> (def p (p/promise))
-=> (def p* (p/promise))
-=> (p/realise p p*)
-=> @p
-:redlobster.promise/not-realised
-=> (p/realise p* "Hello everypony!")
-=> @p
-"Hello everypony!"
 
 ;;; Tests
 
